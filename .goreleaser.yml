@@ -1,0 +1,31 @@
+release:
+  draft: true
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - main: .
+    binary: jacksquat
+    ldflags:
+      - -s -w
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm
+      - arm64
+    ignore:
+      - goos: linux
+        goarch: 386
+archives:
+  - name_template: "jacksquat_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - README.md
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-next"
+changelog:
+  skip: true
